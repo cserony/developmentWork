@@ -1,1 +1,25 @@
-hello
+Check box using div show and hide option:
+*****************************************
+$(function () {
+	$("#IsBonus").on("click", function () {
+		$("#DivBonus").toggle(this.checked);
+	});
+});
+
+html table textbox two column field calculation:
+************************************************
+$("#itemTable_Item_Issue").on('change', '.lcQtys', function () {
+	var returnQty = $(this).parent().parent().find('.lcQtys').val();
+	var issueQty = $(this).parent().parent().find('.lcRates').val();
+	if (returnQty > issueQty) {
+		alert("Return Quantity Not Greater Then " + issueQty + "");
+		$(this).parent().parent().find('.lcQtys').val("").focus();
+	}
+});
+
+html table row remove code:
+***************************
+$("#itemTable_Item_Issue").on('click', '.remItem', function () {
+	$(this).parent().parent().remove();
+});
+
