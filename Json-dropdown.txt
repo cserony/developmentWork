@@ -1,0 +1,7 @@
+var UnbillBranch = ESOL.BO.HR.ClientSite.Search(query);
+IEnumerable<SelectListItem> Sites = UnbillBranch.Select(c => new SelectListItem
+{
+	Value = c.ClientSiteID.ToString(),
+	Text = c.Name
+}).ToList();
+return Json(Sites, JsonRequestBehavior.AllowGet);
