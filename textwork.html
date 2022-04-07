@@ -23,3 +23,7 @@ $("#itemTable_Item_Issue").on('click', '.remItem', function () {
 	$(this).parent().parent().remove();
 });
 
+Child table sum calculation:
+****************************
+oBillProcess.VATAmount = oBillItems.Sum(a => a.VAT);
+

@@ -1,0 +1,74 @@
+--------------*********** FOR SQL SERVER **************-------------
+
+SELECT '@'+COLUMN_NAME,DATA_TYPE+','
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'HrPassportDetails'
+
+SELECT COLUMN_NAME+','
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'HrPassportDetails'
+
+SELECT '@'+COLUMN_NAME+','
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'HrPassportDetails'
+
+SELECT COLUMN_NAME+'='+'@'+COLUMN_NAME+','
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'HrPassportDetails'
+
+
+-------------------Generate Model From Database public string OrgCode { get; set; }
+
+
+SELECT 'public' + CASE WHEN DATA_TYPE='varchar' THEN ' string ' 
+WHEN DATA_TYPE='nvarchar' THEN ' string '
+WHEN DATA_TYPE='int' THEN ' int '
+WHEN DATA_TYPE='datetime' THEN ' DateTime '
+WHEN DATA_TYPE='bit' THEN ' bool '
+WHEN DATA_TYPE='image' THEN ' byte[] '
+else ' decimal ' END + COLUMN_NAME +  ' { get; set; } ' 
+ FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME='HrPassportDetails'
+
+
+----------------Generate Command Parameter for Store Procedure in Code-----
+
+SELECT 'cmd.Parameters.Add(' + '"' + '@' + COLUMN_NAME + '"' + ', SqlDbType.' + 
+CASE WHEN DATA_TYPE='varchar' THEN 'VarChar ' WHEN DATA_TYPE='nvarchar' THEN 'NVarChar'
+WHEN DATA_TYPE='int' THEN 'Int ' WHEN DATA_TYPE='datetime' THEN 'DateTime'
+WHEN DATA_TYPE='bit' THEN 'Bit' WHEN DATA_TYPE='image' THEN 'Image'
+else 'Decimal' END +').Value = entity.' + COLUMN_NAME + ';' as CL
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME='Student'
+
+
+
+----------------- generate data from reader model.OrgCode = reader["ORG_CODE"].ToString();
+
+SELECT 'list.' + COLUMN_NAME + '= reader["' + COLUMN_NAME + '"].ToString()' + ';' as CL
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME='HrPassportDetails'
+
+
+
+
+
+create procedure [dbo].[SP_FeeTypeAll](
+	
+	@StatementType nvarchar(10)=''
+)
+as
+begin
+	if @StatementType ='Insert'
+	begin
+		insert into FeeType()
+		values()
+		set @FeeTypeId=SCOPE_IDENTITY();
+	end
+	if @StatementType ='Update'
+	begin
+		update FeeType set
+		
+		where OrgId=@OrgId 
+	end
+end
