@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container"> 
+	<div class="row"> 
+		<div class="col-md-6"> 
+			 <div class="table-responsive"> 
+				<table class="table table-hover" id="tb1">
+				<thead style="background-color: rgb(25, 96, 143); color: #fff;" id="feesTbl">
+				  <tr>        
+					<th>Particular's</th>
+					<th>Payable Amount</th>
+					<th><input type="checkbox" id="checked"/></th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr data-index="1">        
+					<td>
+						<input type="hidden" value="1"/>
+					   <input type="text" value="Admission Form" name="name" readonly style="outline: none; border: 0;" />
+					</td>
+					<td>
+					<input type="text" value="2000" name="number" readonly style="outline: none; border: 0;" />
+					</td>
+					<td>
+					  <input type="checkbox" class="checky" value="1" data-amount="2000">
+					</td>
+				  </tr>      
+				  <tr data-index="2">        
+					<td>
+					   <input type="hidden" value="2"/>
+					   <input type="text" value="Student Portal" name="name" readonly style="outline: none; border: 0;" />
+					</td>
+					<td>
+					  <input type="text" value="3000" name="number" readonly style="outline: none; border: 0;" />
+					</td>
+					<td>
+					  <input type="checkbox" class="checky" value="2" data-amount="3000">
+					</td>
+				  </tr>      
+				</tbody>
+			  </table>
+			 </div>
+		</div>
+		<div class="col-md-6"> 
+			<div class="table-responsive"> 
+				<table class="table table-hover" id="tbl2">
+					<thead>
+					  <tr>        
+						<th>Particular's</th>
+						<th>Payable Amount</th>
+						<th></th>
+					  </tr>
+					</thead>
+					<tbody></tbody>
+				  </table>
+			</div>
+		</div>
+	</div>
+	<div class="row"> 
+		<div id="showTotal">
+			<div class="col-md-4"></div>
+			<div class="col-md-4 text-right">
+			  Total
+			</div>
+			<div class="col-md-4">
+			  <input type="text" id="total" name="total" class="form-control" style="outline: none; border: 0;" />
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script type="text/javascript"> 
+var $checky = $("input[type=checkbox].checky");
+$("input:checkbox#checked").change(function(){
+  var filter;
+  if (this.checked)
+    filter = ':not(:checked)';
+  else
+    filter = ':checked';
+  $checky.filter(filter).prop('checked',this.checked).trigger('change');
+})
+$checky.change(function() {
+  if ($(this).is(":checked")) {
+    calculateTotal();
+    $(this).closest("tr").clone().appendTo("#tbl2 tbody");
+  } else {
+    var index = $(this).closest("tr").attr("data-index");
+    var findRow = $("#tbl2 tr[data-index='" + index + "']");
+    calculateTotal();
+    findRow.remove();
+  }
+});
+function calculateTotal() {
+  var total = 0;
+  $checky.filter(":checked").each(function() {
+    total = parseFloat(total) + parseFloat($(this).attr('data-amount'));
+  });
+  $("#total").val(total);
+}
+</script>
+</body>
+</html>
