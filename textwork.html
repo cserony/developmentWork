@@ -31,3 +31,12 @@ input autocomplete off code:
 ****************************
 $("input").attr("autocomplete", "off");
 
+Get list data filer code:
+****************************
+ESOL.BO.HR.LoanBasic.Get().Where(a => a.LoanId == 2)
+
+Sql query using present date 10 days of month:
+**********************************************
+SELECT DATEFROMPARTS(YEAR(GETDATE()),MONTH(GETDATE()),10)
+
+
