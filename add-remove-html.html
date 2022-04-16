@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container"> 
+		<div class="row"> 
+			<div class="table-responsive"> 
+				<table id="table" class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr class="success">
+							<th>SL No.</th>
+							<th>Item</th>
+							<th>Product</th>
+							<th>Qty</th>
+							<th>Price</th>
+							<th>Rabat</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td>
+								<select name="sif_roba1" id="sif_roba1" class="form-control">
+									<option value="">Please select</option>
+									<option value="1">Laptop</option>
+									<option value="2">Mouse</option>
+									<option value="3">Keyboard</option>
+								</select>
+							</td>
+							<td>
+								<select name="idjmj1" id="idjmj1" class="form-control">
+									<option value="">Please select</option>
+									<option value="1">HP Laptop</option>
+									<option value="2">Dell Mouse</option>
+									<option value="3">A4Tech Keyboard</option>
+								</select>
+							</td>
+							<td>
+								<input name="cijena1" id="cijena1" class="form-control">
+							</td>
+							<td>
+								<input name="track1" id="track1" class="form-control">
+							</td>
+							<td>
+								<input name="rabat1" id="rabat1" class="form-control">
+							</td>
+							<td>
+								<button type="button" class="btn remove_button btn-danger btn-sm">Remove</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<button type="button" class="add btn btn-success btn-sm" onClick="clickMe();">Add</button>
+			</div>
+		</div>
+	</div>	
+
+<script type="text/javascript"> 
+$(document).ready(function ($) {
+    // trigger event when button is clicked
+    $("button.add").click(function () {
+        // add new row to table using addTableRow function
+        addTableRow($("table"));
+        // prevent button redirecting to new page
+        return false;
+
+    });
+
+    // function to add a new row to a table by cloning the last row and 
+    // incrementing the name and id values by 1 to make them unique
+    function addTableRow(table) {
+
+        // clone the last row in the table
+        var $tr = $(table).find("tbody tr:last").clone();
+
+
+        // get the name attribute for the input and select fields
+        $tr.find("input,select").attr("name", function () {
+            // break the field name and it's number into two parts
+            var parts = this.id.match(/(\D+)(\d+)$/);
+            // create a unique name for the new field by incrementing
+            // the number for the previous field by 1
+            return parts[1] + ++parts[2];
+
+            // repeat for id attributes
+        }).attr("id", function () {
+            var parts = this.id.match(/(\D+)(\d+)$/);
+            return parts[1] + ++parts[2];
+        });
+        // append the new row to the table
+        $(table).find("tbody tr:last").after($tr);
+        $tr.hide().fadeIn('slow');
+
+        // row count
+        rowCount = 0;
+        $("#table tr td:first-child").text(function () {
+            return ++rowCount;
+        });
+
+        // remove rows
+        $(".remove_button").on("click", function () {
+            if ( $('#table tbody tr').length == 1) return;
+            $(this).parents("tr").fadeOut('slow', function () {
+                $(this).remove();
+                rowCount = 0;
+                $("#table tr td:first-child").text(function () {
+                    return ++rowCount;
+                });
+            });
+        });
+    };
+});
+</script>
+</body>
+</html>
